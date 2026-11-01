@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"            # залежності Python (requirements.txt)
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(capsule)"
+  - package-ecosystem: "github-actions" # дії GitHub Actions (з'являться в лабораторній 6)
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci(capsule)"
