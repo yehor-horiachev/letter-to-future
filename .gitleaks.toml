@@ -1,0 +1,17 @@
+title = "letter-to-future"
+
+[extend]
+useDefault = true          # залишаємо всі стандартні правила
+
+[[rules]]
+id = "letter-to-future-future-key"
+description = "Ключ шифрування листів «Лист у майбутнє» (блок FUTURE KEY)"
+# BEGIN-рядок, щонайменше один рядок base64 (≥16 символів), END-рядок.
+# Між рядками дозволено пробільні символи і «+» — у режимі `gitleaks git`
+# кожен доданий рядок патча починається з «+».
+regex = '''-----BEGIN FUTURE KEY-----[\s+]+(?:[A-Za-z0-9+/]{16,}={0,2}[\s+]+)+-----END FUTURE KEY-----'''
+keywords = ["begin future key"]
+
+[allowlist]
+description = "Документація з прикладами"
+paths = ['''docs/examples/.*''']

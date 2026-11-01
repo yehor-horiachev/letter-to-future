@@ -18,6 +18,27 @@
 - pytest
 - GitHub Actions (CI/CD)
 
+## Секрети і конфігурація
+Секрети не зберігаються в коді: модуль `src/letter/config.py` читає їх із змінних середовища і зупиняє застосунок із поясненням, якщо обов'язкової змінної немає. Значення секретів ніколи не друкуються.
+
+| Змінна | Обов'язкова | Де взяти значення |
+|---|---|---|
+| `FUTURE_KEY` | так | ключ шифрування листів (блок `-----BEGIN FUTURE KEY----- … -----END FUTURE KEY-----`); видає відповідальний за сховище ключів, у продакшні — з KMS / Vault |
+| `DATABASE_URL` | так | рядок підключення до PostgreSQL |
+| `APP_ENV` | ні | `development` (за замовчуванням) або `production` |
+
+Локальний запуск:
+```bash
+cp .env.example .env          # заповніть значення; .env ігнорується Git
+python -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python -m pytest
+```
+
+Хуки, що не дають закомітити секрет (Gitleaks з правилом для `FUTURE KEY`, detect-private-key та ін.):
+```bash
+pip install pre-commit && pre-commit install
+```
+
 ## Стратегія розгалуження
 GitHub Flow: `main` — завжди робоча версія, кожна зміна — коротка гілка `feature/<№ issue>-<опис>` або `fix/<№ issue>-<опис>` від `main`, злиття лише через pull request.
 Коміти — у форматі Conventional Commits з областю `capsule`, підписані GPG-ключем.
